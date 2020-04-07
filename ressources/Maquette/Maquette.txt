@@ -1,0 +1,33 @@
+Type de site : E-commerce.
+Type de produit vendu : Cartouche d'imprimante.
+
+Maquette 1 "L'accueil" : 
+
+Maquette 2 "Produit" : 
+
+Maquette 3 "Contact" : 
+
+Formulaire basique comprennant : 
+
+- 4 inputs pour pouvoir récupérer les informations du client.
+- 1 textarea pour que l'utilisateur entre sont message.
+
+Deux bouttons, un validation et l'autre d'annulation d'envoi de formulaire qui remet tout les champs vide.
+Une fois la validation du formulaire effectué un message de confirmation s'affichera alors.
+
+Maquette 4 "Inscription" : 
+
+Idée de mise en place de l'inscription :
+
+Au clic sur le champs inscription la vue s'affiche en premier plan et floutte tout autour d'elle ?
+
+Formulaire d'inscription comprennant : 
+
+- 7 champs inputs pour pouvoir récupérer les informations du client.
+- 2 bouttons qui permettent de s'inscrire grâce à Google et Facebook.
+- 2 bouttons, un validation et un annuler.
+
+Une fois la procédure de d'inscription terminée un message de confirmation s'affiche.
+
+
+
