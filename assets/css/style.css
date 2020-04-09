@@ -1,0 +1,8 @@
+.selected{
+	color: blue;
+	font-weight: 600;
+}
+
+.selected::after{
+	content: ' ⯈';
+}
