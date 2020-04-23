@@ -1,3 +1,7 @@
+*{
+	font-family: 'Mukta', sans-serif;
+}
+
 .selected{
 	color: blue;
 	font-weight: 600;
@@ -5,4 +9,13 @@
 
 .selected::after{
 	content: ' ⯈';
+}
+
+.inactive{
+	color: gray;
+	cursor: default;
+}
+
+.inactive::hover{
+
 }

@@ -23,6 +23,7 @@ class Products_model extends CI_Model
 	public function selectByPrinter($printerID){
 		$this->db->join('compatibilities', 'printerID = ' . $printerID);
 		$this->db->where('compatibilities.productID = products.ID');
+		$this->db->where('products.available = 1');
 		return $this->db->get('products')->result();
 	}
 
@@ -36,6 +37,12 @@ class Products_model extends CI_Model
 	public function addAll($products){
 		$inserted = [];
 		return $this->db->insert_batch('products', $products);
+	}
+
+	public function addCompatibilities($comps){
+		foreach($comps as $comp){
+			$this->db->insert('compatibilities', $comp);
+		}
 	}
 
 		/* Update a product */

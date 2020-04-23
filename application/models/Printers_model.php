@@ -40,7 +40,23 @@ class Printers_model extends CI_Model
 		return $this->db->get('printers')->result();
 	}
 
+	public function getEmptyPrinters($model, $printers){
+		$emptyPrinters = [];
+		foreach($printers as $printer){
+			if(empty($this->Products_model->selectByPrinter($this->getPrinterID($model, $printer->printer)))){
+				array_push($emptyPrinters, $printer->printer);
+			}
+		}
+		return($emptyPrinters);
+	}
 
+	public function searchPrinter($text){
+		$this->db->like('mark', $text);
+		$this->db->or_like('printer', $text);
+		$this->db->limit(20);
+		$this->db->order_by('mark, model, printer');
+		return $this->db->get('printers')->result_array();
+	}
 }
 
 ?>

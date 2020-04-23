@@ -18,7 +18,7 @@
 
 	</head>
 
-	<body>
+	<body class="w-screen">
 		<header>
 			<nav class="flex justify-between w-full bg-teal-100 p-4 mb-4">
 		        <div class="">DirectBureau v0.1</div>
