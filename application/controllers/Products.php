@@ -150,6 +150,33 @@ class Products extends CI_Controller
 		echo json_encode($printers);
 	}
 
+	public function productSearchQuery(){
+		$products = [];
+		$this->form_validation->run();
+		$text = $this->input->post('text');
+		$available = $this->input->post('available');
+		$products = $this->Products_model->searchProducts($text, $available);
+		echo json_encode($products);
+	}
+
+	public function manageProducts(){
+		$products = [];
+		$products = $this->Products_model->selectAll();
+		$data['products'] = $products;
+
+		$this->load->view('header');
+		$this->load->view('productsList', $data);
+	}
+
+	public function deleteProduct($productID = null){
+		if(!isset($productID)){
+			$this->form_validation->run();
+			$productID = $this->input->post('id');
+		}
+		echo $this->Products_model->removeOne($productID);
+	}
+
+
 
 }
 

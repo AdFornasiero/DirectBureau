@@ -38,7 +38,7 @@
 		<div class="w-3/4 mb-4">
 			<label class="ml-2">Image<span class="italic text-xs text-gray-600 ml-2">.png .jpg .gif</span></label>
 			<?= form_upload('image', 'image', array('id' => 'imageUploader', 'class' => 'hidden')) ?>
-			<div id="uploadDropzone" class="w-3/4 sm:w-64 h-32 cursor-pointer bg-white border rounded-sm">
+			<div id="uploadDropzone" class="w-wull h-32 cursor-pointer bg-white border rounded-sm">
 				<img id="imagePreview" class="object-contain h-32 mx-auto p-1" src="<?= base_url('assets/imgs/uploadImage.png') ?>"/>
 				<span id="imageName" class="hidden text-sm text-center pb-1"></span>
 			</div>
