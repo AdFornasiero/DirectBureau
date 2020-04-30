@@ -57,6 +57,13 @@ class Printers_model extends CI_Model
 		$this->db->order_by('mark, model, printer');
 		return $this->db->get('printers')->result_array();
 	}
+
+	public function selectCompatiblePrinters($productID){
+		$this->db->join('compatibilities', 'compatibilities.printerID = printers.ID');
+		$this->db->where('productID', $productID);
+		$this->db->order_by('mark, printer');
+		return $this->db->get('printers')->result();
+	}
 }
 
 ?>

@@ -98,42 +98,92 @@ class Products extends CI_Controller
 
 		/* Show the form to update a product */
 	public function updateForm($productID){
+		$data['product'] = $this->Products_model->selectOne($productID);
+		$data['printers'] = $this->Printers_model->selectCompatiblePrinters($productID);
 
+		if($this->input->post()){
+			if($this->form_validation->run()){
+				$printersToAdd = [];
+				$printersToRemove = [];
+				$initialPrinters = [];
+
+				$product['reference'] = trim($_POST['reference']);
+				$product['label'] = trim($_POST['label']);
+				$product['price'] = $_POST['price'];
+
+				if(isset($_POST['available']))
+					$product['available'] = 1;
+				else
+					$product['available'] = 0;
+
+				$now = new DateTime();
+				$now = $now->format('Y-m-d H-i-s');
+				$product['updated'] = $now;
+
+
+				foreach($data['printers'] as $printer)
+					array_push($initialPrinters, $printer->ID);
+				$compsToSet = explode('|', $_POST['printers']);
+				array_pop($compsToSet);
+				foreach($compsToSet as $printer){
+					if(!in_array($printer, $initialPrinters)){
+						array_push($printersToAdd, array('productID' => $productID,
+										'printerID' => $printer));
+					}
+				}
+				foreach ($initialPrinters as $initialPrinter) {
+					if(!in_array($initialPrinter, $compsToSet)){
+						array_push($printersToRemove, array('productID' => $productID,
+										'printerID' => $initialPrinter));
+					}
+				}
+
+				if($data['updated'] = $this->Products_model->update($product, $productID)){
+					if(!empty($printersToRemove))
+						$this->Products_model->removeCompatibilities($printersToRemove);
+					if(!empty($printersToAdd))
+						$this->Products_model->addCompatibilities($printersToAdd);
+				}
+				$data['printers'] = $this->Printers_model->selectCompatiblePrinters($productID);
+			}
+		}
+
+		$this->load->view('header');
+		$this->load->view('updateForm', $data);
 	}
 
 		/* Show the form to add a product */
 	public function addForm(){
+		$data = [];
 		if($this->input->post()){
 			if($this->form_validation->run()){
 				$printers = [];
-				$compatibles = explode('|', $_POST['printers']);
-				array_pop($compatibles);
+		
 				$product['reference'] = trim($_POST['reference']);
 				$product['label'] = trim($_POST['label']);
 				$product['price'] = $_POST['price'];
+
 				if(isset($_POST['available']))
 					$product['available'] = 1;
 				else
 					$product['available'] = 0;
 			
+				$compatibles = explode('|', $_POST['printers']);
+				array_pop($compatibles);
+
 				if($inserted = $this->Products_model->addOne($product)){
 					foreach($compatibles as $printer){
 						array_push($printers, array('productID' => $inserted,
 											'printerID' => $printer));
 					}
 					$this->Products_model->addCompatibilities($printers);
-					echo var_dump($printers);
-					echo var_dump($product);
+					$data['added'] = true;
 				}
 	        }
-	        else{
-	            
-	        }
 		}
-		else{
-		}
+
 		$this->load->view('header');
-		$this->load->view('addForm');
+		$this->load->view('addForm', $data);
 	}
 
 		/* Show the form to add a list of products */
