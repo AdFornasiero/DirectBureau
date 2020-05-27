@@ -1,0 +1,2 @@
+https://tailwindcomponents.com/component/fly-out-menu-vuejs (menu qui contiendrais connexion, inscription, déconnexion, espace admin)
+https://www.tailwindtoolbox.com/templates/admin-template (idée de mise en place ?)

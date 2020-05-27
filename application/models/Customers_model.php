@@ -90,10 +90,26 @@ class Customers_model extends CI_Model
     //  User management section //
     // ------------------------ //
 
-    // function which allows the deletion of a user.
-    public function removeCustomers($customers)
+    public function countAllCustomers(){
+        return $this->db->count_all('customers');
+    }
+
+    // functio which allow the list customers.
+    public function listCustomers()
     {
-        $this->db->where('id', $customers['id']);
+        return $this->db->get('customers')->result();
+    }
+
+    public function selectOneCustomers($customersId)
+    {
+        $this->db->where('id', $customersId);
+        return $this->db->get('customers');
+    }
+
+    // function which allows the deletion of a user.
+    public function removeCustomers($customersId)
+    {
+        $this->db->where('id', $customersId);
         $this->db->delete('customers');
     }
 
@@ -102,6 +118,16 @@ class Customers_model extends CI_Model
     {
         $this->db->where('email', $mail);
         if ($this->db->update('customers', $customers)) {
+            return true;
+        } else {
+            return false;
+        }
+    }
+
+    public function modifyPassword($data, $key)
+    {
+        $this->db->where('user_key', $key);
+        if ($this->db->update('customers', $data)) {
             return true;
         } else {
             return false;
@@ -155,6 +181,8 @@ class Customers_model extends CI_Model
         $this->email->message($msg);
         $this->email->send();
     }
+
+
 
     // TODO
 }

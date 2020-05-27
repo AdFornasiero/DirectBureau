@@ -1,21 +1,28 @@
-*{
-	font-family: 'Mukta', sans-serif;
+* {
+    font-family: 'Mukta', sans-serif;
 }
 
-.selected{
-	color: blue;
-	font-weight: 600;
+.selected {
+    color: blue;
+    font-weight: 600;
 }
 
-.selected::after{
-	content: ' ⯈';
+.selected::after {
+    content: ' ⯈';
 }
 
-.inactive{
-	color: gray;
-	cursor: default;
+.inactive {
+    color: gray;
+    cursor: default;
 }
 
-.inactive::hover{
 
+/* SignUp */
+
+input.invalid {
+    border: 2px solid red;
+}
+
+input.valid {
+    border: 2px solid green;
 }
