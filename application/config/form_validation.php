@@ -10,6 +10,8 @@ $pricePattern = '/^[0-9]{0,6}((,|\.)[0-9]{1,2})?$/'; // Chiffres, éventuellemen
 
 $stockPattern = '/^[0-9]{1,9}$/'; // 0 à 10 chiffres uniquement
 
+$printersPattern = '/^([0-9]{1,12}\|)*$/';
+
 $everythingPattern = '/^[0-9A-Za-z-_áàâäãåçéèêëíìîïñóòôöõúùûüýÿæœÁÀÂÄÃÅÇÉÈÊËÍÌÎÏÑÓÒÔÖÕÚÙÛÜÝŸÆŒ ]{1,64}$/';
 
 $phonePattern = '/^[(0|\+33)[1-9]([-. ]?[0-9]{3}){3}$/';
@@ -56,6 +58,8 @@ $config = array(
 			)
 		),
 
+
+
 		// PRICE
 		array(
 			'field' => 'price',
@@ -69,15 +73,86 @@ $config = array(
 				'regex_match' => 'Le prix n\'est pas correct'
 			)
 
+		),
+
+		// PRINTERS
+		array(
+			'field' => 'printers',
+			'label' => 'Imprimantes compatibles',
+			'rules' => array('regex_match[' . $printersPattern . ']'),
+			'errors' => array('regex_match' => 'Tu te crois malin?')
 		)
 
 	),
 
+	'Products/updateForm' => array(
+
+		// LABEL
+		array(
+			'field' => 'label',
+			'label' => 'Libellé',
+			'rules' => array(
+				'required',
+				'max_length[256]',
+				'regex_match[' . $labelPattern . ']'
+			),
+			'errors' => array(
+				'required' => 'Entrez le libellé',
+				'max_length' => 'Le libellé et trop long (max. 256 caractères)',
+				'regex_match' => 'Caractères non valides'
+			)
+		),
+
+		// REFERENCE
+		array(
+			'field' => 'reference',
+			'label' => 'Référence',
+			'rules' => array(
+				'required',
+				'min_length[2]',
+				'max_length[64]',
+				'regex_match[' . $referencePattern . ']'
+			),
+			'errors' => array(
+				'required' => 'Entrez la référence',
+				'min_length' => 'La référence doit faire au moins 2 caractères',
+				'max_length' => 'La référence doit faire plus de 64 caractères',
+				'regex_match' => 'Caractères non valides'
+			)
+		),
+
+
+
+		// PRICE
+		array(
+			'field' => 'price',
+			'label' => 'Prix',
+			'rules' => array(
+				'required',
+				'regex_match[' . $pricePattern . ']'
+			),
+			'errors' => array(
+				'required' => 'Entrez le prix hors-taxes du produit',
+				'regex_match' => 'Le prix n\'est pas correct'
+			)
+
+		),
+
+		// PRINTERS
+		array(
+			'field' => 'printers',
+			'label' => 'Imprimantes compatibles',
+			'rules' => array('regex_match[' . $printersPattern . ']'),
+			'errors' => array('regex_match' => 'Tu te crois malin?')
+		)
+
+		),
+
 	//|-------------------------------------|//
-    //|  CUSTOMERS FORM_VALIDATION SECTION  |//
+	//|  CUSTOMERS FORM_VALIDATION SECTION  |//
 	//|-------------------------------------|//
 
-		'Customers/signUp' => array(
+	'Customers/signUp' => array(
 		// FIRSTNAME
 		array(
 			'field' => 'firstname',
