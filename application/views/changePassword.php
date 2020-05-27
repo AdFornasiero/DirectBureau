@@ -1,19 +1,27 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=h1, initial-scale=1.0">
-    <title>Document</title>
-</head>
-<body>
-
-<h1>Changement de mot de passe :</h1><br>
-<?php echo validation_errors(); ?>
-    <?php echo form_open(); ?>
-    <input type="text" name="password" value="<?php echo set_value('password'); ?>" size="50" placeholder="Mot de passe" /><br>
-    <input type="text" name="passwordConfirm" size="50" placeholder="Confirmation de mot de passe" /><br>
-    <button type="submit">Modifier</button>
-    <?php echo $this->session->flashdata('msg'); ?>
-    <?php echo $this->session->flashdata('verify_msg'); ?>
-</body>
-</html>
+<link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+<div class="w-full flex flex-wrap">
+    <!-- Login Section -->
+    <div class="w-full md:w-1/2 flex flex-col mb-20">
+        <?php echo $this->session->flashdata('msg'); ?>
+        <?php echo $this->session->flashdata('verify_msg'); ?>
+        <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+            <p class="text-center text-3xl">Récupération de mot de passe.</p>
+            <?php echo validation_errors(); ?>
+            <?= form_open_multipart('', array('class' => 'flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32')) ?>
+            <div class="flex flex-col pt-4">
+                <label for="password" class="text-lg">Mot de passe</label>
+                <input type="password" id="password" placeholder="******************" name="password" value="<?php echo set_value('password'); ?>" class="border rounded-full w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:border-blue-500">
+            </div>
+            <div class="flex flex-col pt-4">
+                <label for="password" class="text-lg">Confirmation de mot de passe</label>
+                <input type="password" id="passwordConfirm" placeholder="******************" name="passwordConfirm" class="border rounded-full w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:border-blue-500">
+            </div>
+            <input type="submit" value="Récupérer" class="rounded-full bg-black text-white font-bold text-lg hover:bg-red-700 p-2 mt-8">
+            <?php form_close() ?>
+        </div>
+    </div>
+    <!-- Image Section -->
+    <div class="w-1/2 shadow-2xl">
+        <img class="object-cover w-full h-screen md:block" src="<?= base_url('assets/imgs/background/background-login.jpg') ?>" alt="" />
+    </div>
+</div>

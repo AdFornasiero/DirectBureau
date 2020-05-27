@@ -1,46 +1,38 @@
-<?php echo validation_errors(); ?>
-<?php echo form_open(); ?>
-<div class="w-full max-w-xs">
-    
-        <div class="mb-4">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="mail">
-                Adresse mail
-            </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="mail" type="text" placeholder="votreAdresse@gmail" name="mail" value="<?php echo set_value('mail'); ?>">
-        </div>
-        <div class="mb-6">
-            <label class="block text-gray-700 text-sm font-bold mb-2" for="password">
-                Mot de passe
-            </label>
-            <input class="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" id="password" type="password" placeholder="***************" name="password" value="<?php echo set_value('password'); ?>">
-        </div>
-        <div class="flex items-center justify-between">
-            <button class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Connexion
+    <link href="https://unpkg.com/tailwindcss/dist/tailwind.min.css" rel="stylesheet">
+    <div class="w-full flex flex-wrap">
+        <!-- Login Section -->
+        <div class="w-full md:w-1/2 flex flex-col">
+            <div class="mt-4 ml-2 flex">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24">
+                    <path d="M20 11H7.83l5.59-5.59L12 4l-8 8 8 8 1.41-1.41L7.83 13H20v-2z" /></svg>
+                <a href="<?= site_url('Home/index') ?>" class="ml-2 leading-tight font-semibold">ACCUEIL</a>
+            </div>
             </button>
-            <a class="inline-block align-baseline font-bold text-sm text-blue-500 hover:text-blue-800" href="<?= site_url(); ?>/Customers/forgotPassword">
-                Mot de passe oublier ?
-            </a>
+            <?php echo $this->session->flashdata('msg'); ?>
+            <?php echo $this->session->flashdata('verify_msg'); ?>
+            <div class="flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32">
+                <p class="text-center text-3xl">Bienvenue</p>
+                <?php echo validation_errors(); ?>
+                <?= form_open_multipart('', array('class' => 'flex flex-col justify-center md:justify-start my-auto pt-8 md:pt-0 px-8 md:px-24 lg:px-32')) ?>
+                <div class="flex flex-col pt-4">
+                    <label for="email" class="text-lg">Adresse mail</label>
+                    <input type="email" id="mail" name="mail" placeholder="mail@gmail.com" value="<?php echo set_value('mail'); ?>" class="border rounded-full w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:border-blue-500">
+                </div>
+                <div class="flex flex-col pt-4">
+                    <label for="password" class="text-lg">Mot de passe</label>
+                    <input type="password" id="password" name="password" placeholder="*****************" value="<?php echo set_value('password'); ?>" class="border rounded-full w-full py-2 px-3 text-gray-700 mt-1 leading-tight focus:outline-none focus:border-blue-500">
+                </div>
+                <input type="submit" value="SE CONNECTER" class="rounded-full bg-black text-white font-bold text-lg hover:bg-red-700 p-2 mt-8">
+                <?php form_close() ?>
+                <div class="text-center pt-12 pb-12">
+                    <p>Pas de compte ? <a href="<?= site_url(); ?>/Customers/signUp" class="underline font-semibold">Inscrivez vous ici.</a></p>
+                    <a class="mr-2 leading-tight underline font-semibold" href="<?= site_url(); ?>/Customers/forgotPassword">Mot de passe oublier ?</a>
+                </div>
+            </div>
+
         </div>
-    </form>
-    <?php echo $this->session->flashdata('msg'); ?>
-    <?php echo $this->session->flashdata('verify_msg'); ?>
-</div>
-
-<div>
-    <h1>Test récupération données utilisateur :</h1>
-    <span>Prénom : <?= $this->session->userdata('firstname') ?></span><br>
-    <span>Nom : <?= $this->session->userdata('lastname') ?> </span><br>
-    <span>Civilité : <?= $this->session->userdata('gender') ?> </span><br>
-    <span>Adresse mail : <?= $this->session->userdata('email') ?> </span><br>
-    <span>Téléphone : <?= $this->session->userdata('phone') ?> </span><br>
-    <span>Fax : <?= $this->session->userdata('fax') ?> </span><br>
-    <a href="<?= site_url(); ?>/Customers/logOut">Déconnexion</a>
-</div>
-
-<?php var_dump($_SESSION) ?>
-
-
-</body>
-
-</html>
+        <!-- Image Section -->
+        <div class="w-1/2 shadow-2xl">
+            <img class="object-cover w-full h-screen md:block" src="<?= base_url('assets/imgs/background/background-login.jpg') ?>" alt="" />
+        </div>
+    </div>
