@@ -16,12 +16,12 @@
 	<h1 class="text-2xl mb-4">Cartouches pour <?= $mark.' '.$printer ?></h1>
 
 	<?php foreach($products as $product){ ?>
-		<div class="flex flex-wrap w-full border border-gray-500 bg-gray-100 rounded mb-2 p-2">
+		<div class="flex flex-wrap items-center w-full border border-gray-500 bg-gray-100 rounded mb-2 p-2">
 
 			<div class="w-full sm:w-1/3">
 				<img src="<?= base_url("assets/imgs/noimg.jpg") ?>" class="mx-auto h-40 object-cover rounded-sm"/>
 			</div>
-			<div class="relative w-full sm:w-2/3 pl-2 mt-2">
+			<div class="relative w-full sm:w-2/3 pl-2">
 				<h2 class="block font-semibold"><?= $product->label ?></h2>
 				<span class="block text-sm mt-2">Réf. constructeur: <?= $product->reference ?></span>
 				<div class="block text-right">

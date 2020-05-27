@@ -21,12 +21,11 @@
 	<body class="w-screen">
 		<header>
 			<nav class="flex justify-between w-full bg-teal-100 p-4 mb-4">
-		        <div class="">DirectBureau v0.1</div>
+		        <div class="">DirectBureau v0.2</div>
 		        <div class="flex">
-	                <div class="mx-1"><a href="<?= site_url('Products/addForm') ?>" class="">addForm</a></div>
-	                <div class="mx-1"><a href="<?= site_url('Products/showProducts') ?>" class="">showProducts</a></div>
-	                <div class="mx-1"><a href="<?= site_url('Products/updateForm') ?>" class="">updateForm</a></div>
-	                <div class="mx-1"><a href="<?= site_url('Products/searchPrinter') ?>" class="">searchPrinter</a></div>
+	                <div class="mx-1"><a href="<?= site_url('Products/addForm') ?>" class="">Ajouter</a></div>
+	                <div class="mx-1"><a href="<?= site_url('Products/manageProducts') ?>" class="">Gérer les produits</a></div>
+	                <div class="mx-1"><a href="<?= site_url('Products/searchPrinter') ?>" class="">Chercher par modèle</a></div>
 	            </div>
 			</nav>
 		</header>

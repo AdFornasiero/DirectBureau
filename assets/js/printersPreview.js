@@ -5,7 +5,6 @@ var selectedPrinters = '';
 $('#dynamicDropdown').width($('#printerSelector').width());
 $('#dynamicDropdown').css('max-height', '12rem');
 
-
 // Execute search query on key released
 $('#printerSelector').keyup(function(){
 	text = $('#printerSelector').val();
@@ -57,6 +56,18 @@ $('#dynamicDropdown').click(function(e){
 		addPrinter(e.target.outerHTML, e.target.id);
 	}
 	$('#dynamicDropdown').slideUp('fast');
+});
+
+
+// Generate initial printers spans
+$(document).ready(function(){
+	if(typeof printers != 'undefined'){
+		for(var i = 0; i < printers.length; i++){
+			//console.log(printers[i]);
+			textLine = '<span id="' + printers[i]['ID'] + '" class="block cursor-pointer text-xs text-gray-900 shadow-sm py-1 pl-2 mt-1">' + printers[i]['mark'] + ' ' + printers[i]['printer'] + '</span>';
+			addPrinter(textLine, printers[i]['ID']);
+		}
+	}
 });
 
 

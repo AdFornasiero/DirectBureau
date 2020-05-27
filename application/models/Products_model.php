@@ -15,7 +15,7 @@ class Products_model extends CI_Model
 		/* Select a single product */
 	public function selectOne($productID){
 		$this->db->where('ID = ', $productID);
-		return $this->db->get('products');
+		return $this->db->get('products')->result()[0];
 
 	}
 
@@ -45,16 +45,24 @@ class Products_model extends CI_Model
 		}
 	}
 
+	public function removeCompatibilities($comps){
+		foreach ($comps as $comp) {
+			$this->db->where('productID', $comp['productID']);
+			$this->db->where('printerID', $comp['printerID']);
+			$this->db->delete('compatibilities');
+		}
+	}
+
 		/* Update a product */
-	public function update($product){
-		$this->db->where('ID = ', $product['ID']);
+	public function update($product, $productID){
+		$this->db->where('ID', $productID);
 		return $this->db->update('products', $product);
 	}
 
 		/* Remove a single product */
 	public function removeOne($productID){
-		$this->db->where('ID = ', $productID);
-		if(!$this->db->remove('products'))
+		$this->db->where('ID', $productID);
+		if(!$this->db->delete('products'))
 			return false;
 		else
 			return true;
@@ -63,6 +71,17 @@ class Products_model extends CI_Model
 		/* Remove all products */
 	public function removeAll(){
 		return $this->db->empty_table('products');
+	}
+
+	public function searchProducts($text, $available, $sort){
+		$this->db->where('ID = ', $text);
+		if(!$available)
+			$this->db->where('available' == 1);
+		$this->db->or_like('reference', $text, 'after');
+		$this->db->or_like('label', $text, 'both');
+		if($sort != 'none')
+			$this->db->order_by($sort);
+		return $this->db->get('products')->result_array();
 	}
 
 
