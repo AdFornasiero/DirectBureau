@@ -21,6 +21,9 @@ class Products extends CI_Controller
 		$data['model'] = $printer->model;
 		$data['printer'] = $printer->printer;
 		
+		foreach($data['products'] as $product)
+			$data['images'][$product->ID]  = $this->getImage($product->ID);
+
 		$colorKeywords = array('black' => array('noir','black', 'multicolore', 'pack de 4', 'pack de 5', 'couleur', 'couleurs'),
 								'cyan' => array('cyan', 'bleu', 'bleue','multicolore', 'pack de 4', 'pack de 5', 'couleur', 'couleurs'),
 								'magenta' => array('magenta','multicolore', 'pack de 4', 'pack de 5', 'couleur', 'couleurs'),
@@ -100,6 +103,7 @@ class Products extends CI_Controller
 	public function updateForm($productID){
 		$data['product'] = $this->Products_model->selectOne($productID);
 		$data['printers'] = $this->Printers_model->selectCompatiblePrinters($productID);
+		$data['image'] = $this->getImage($productID);
 
 		if($this->input->post()){
 			if($this->form_validation->run()){
@@ -145,6 +149,26 @@ class Products extends CI_Controller
 						$this->Products_model->addCompatibilities($printersToAdd);
 				}
 				$data['printers'] = $this->Printers_model->selectCompatiblePrinters($productID);
+
+				if(!empty($_FILES['image']['name'])){
+					
+					$imageFolder = floor($productID / 100);
+					if(!is_dir('assets\imgs\store\\'.$imageFolder)){
+						mkdir('assets\imgs\store\\'.$imageFolder, 0755);
+					}
+
+					$config['upload_path'] = 'assets/imgs/store/'.$imageFolder.'/';
+					$config['file_name'] = $productID;
+					$config['allowed_types'] = 'gif|jpg|jpeg|png';
+					$config['overwrite'] = true;
+					$config['max_width'] = 2048;
+					$config['max_height'] = 2048;
+
+					$this->load->library('upload', $config);
+					if(!$this->upload->do_upload('image')){
+						$data['uploadError'] = true;
+					}
+				}
 			}
 		}
 
@@ -178,6 +202,26 @@ class Products extends CI_Controller
 					}
 					$this->Products_model->addCompatibilities($printers);
 					$data['added'] = true;
+
+					if(!empty($_FILES['image']['name'])){
+
+						$imageFolder = floor($inserted / 100);
+						if(!is_dir('assets\imgs\store\\'.$imageFolder)){
+							mkdir('assets\imgs\store\\'.$imageFolder, 0755);
+						}
+
+						$config['upload_path'] = 'assets/imgs/store/'.$imageFolder.'/';
+						$config['file_name'] = $inserted;
+						$config['allowed_types'] = 'gif|jpg|jpeg|png';
+						$config['overwrite'] = true;
+						$config['max_width'] = 2048;
+						$config['max_height'] = 2048;
+
+						$this->load->library('upload', $config);
+						if(!$this->upload->do_upload('image')){
+							$data['uploadError'] = true;
+						}
+					}
 				}
 	        }
 		}
@@ -205,14 +249,25 @@ class Products extends CI_Controller
 		$this->form_validation->run();
 		$text = $this->input->post('text');
 		$available = $this->input->post('available');
-		$products = $this->Products_model->searchProducts($text, $available);
+		$sort = $this->input->post('sort');
+		$sort = str_replace('asc', ' ASC', $sort);
+		$sort = str_replace('desc', ' DESC', $sort);
+		$products = $this->Products_model->searchProducts($text, $available, $sort);
+		foreach ($products as &$product) {
+			$product['image'] = $this->getImage($product['ID']);
+		}
 		echo json_encode($products);
 	}
 
 	public function manageProducts(){
 		$products = [];
+		$images = [];
 		$products = $this->Products_model->selectAll();
 		$data['products'] = $products;
+
+		foreach($products as $product)
+			$images[$product->ID] = $this->getImage($product->ID);
+		$data['images'] = $images;
 
 		$this->load->view('header');
 		$this->load->view('productsList', $data);
@@ -223,7 +278,31 @@ class Products extends CI_Controller
 			$this->form_validation->run();
 			$productID = $this->input->post('id');
 		}
+		
+		if(!strpos($this->getImage($productID), 'noimg.jpg')){
+			array_map('unlink', glob('assets/imgs/store/'.floor($productID / 100).'/'.$productID.'.*'));
+		}
 		echo $this->Products_model->removeOne($productID);
+	}
+
+	public function getImage($productID){
+		$baseImage = 'assets/imgs/noimg.jpg';
+		$imagePath = 'assets/imgs/store/'.floor($productID / 100);
+		$imageName = '';
+		if(is_dir($imagePath)){
+			$content = scandir($imagePath);
+			foreach($content as $image){
+				if(explode('.', $image)[0] == $productID){
+					$imageName = $image;
+					break;
+				}
+			}
+		}
+
+		if(!empty($imageName))
+			return base_url($imagePath . '/' . $imageName);
+		else
+			return base_url($baseImage);
 	}
 
 

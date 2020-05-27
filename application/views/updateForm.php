@@ -26,7 +26,7 @@
 			</div>
 			<div class="w-full sm:w-1/2 text-right mt-2">
 				<label class="mr-2">En vente</label>
-				<input name="available" class="w-4 h-4 shadow border rounded px-1" type="checkbox" <?= (isset($_POST) && !isset($_POST['available']) || !isset($_POST) && $product->available) ? '' : 'checked' ?>/>
+				<input name="available" class="w-4 h-4 shadow border rounded px-1" type="checkbox" <?= (empty($_POST) && $product->available) || (!empty($_POST) && isset($_POST['available'])) ? 'checked' : '' ?>/>
 			</div>
 		</div>
 		<div class="w-3/4 mb-4">
@@ -44,7 +44,7 @@
 			<label class="ml-2">Image<span class="italic text-xs text-gray-600 ml-2">.png .jpg .gif</span></label>
 			<?= form_upload('image', 'image', array('id' => 'imageUploader', 'class' => 'hidden')) ?>
 			<div id="uploadDropzone" class="w-full h-32 cursor-pointer bg-white border rounded-sm">
-				<img id="imagePreview" class="object-contain h-32 mx-auto p-1" src="<?= base_url('assets/imgs/uploadImage.png') ?>"/>
+				<img id="imagePreview" class="object-contain h-32 mx-auto p-1" src="<?= $image ?>"/>
 				<span id="imageName" class="hidden text-sm text-center pb-1"></span>
 			</div>
 		</div>

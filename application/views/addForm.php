@@ -24,7 +24,7 @@
 			</div>
 			<div class="w-full sm:w-1/2 text-right mt-2">
 				<label class="mr-2">En vente</label>
-				<input name="available" class="w-4 h-4 shadow border rounded px-1" type="checkbox" <?= (!isset($_POST['available']) && isset($_POST)) ? '' : 'checked' ?>/>
+				<input name="available" class="w-4 h-4 shadow border rounded px-1" type="checkbox" <?= (!isset($_POST['available']) && !empty($_POST)) ? '' : 'checked' ?>/>
 			</div>
 		</div>
 		<div class="w-3/4 mb-4">

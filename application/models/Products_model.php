@@ -73,12 +73,14 @@ class Products_model extends CI_Model
 		return $this->db->empty_table('products');
 	}
 
-	public function searchProducts($text, $available){
+	public function searchProducts($text, $available, $sort){
 		$this->db->where('ID = ', $text);
 		if(!$available)
 			$this->db->where('available' == 1);
 		$this->db->or_like('reference', $text, 'after');
 		$this->db->or_like('label', $text, 'both');
+		if($sort != 'none')
+			$this->db->order_by($sort);
 		return $this->db->get('products')->result_array();
 	}
 

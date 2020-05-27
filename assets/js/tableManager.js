@@ -8,10 +8,12 @@ $("#searchFields #search").click(function(){
 	if($.active == 0){
 		text = $('#productSearchInput').val();
 		available = $('#productAvailableInput').prop('checked');
+		sort = $('#sortingInput option:selected').val();
+
 		$('#loadingImg').removeClass('hidden');
 		$.post({
 			url: baseurl + "Products/productSearchQuery",
-			data: {text:text, available:available},
+			data: {text:text, available:available, sort:sort},
 			datatype: 'json',
 			success: function(data){
 				var products = JSON.parse(data);
@@ -32,7 +34,6 @@ $("#productSearchInput").keypress(function(e){
 		$("#searchFields #search").trigger('click');
 });
 
-
 	// Display products in table
 function showResults(products){
 	$('#productsTable tbody').empty();
@@ -42,6 +43,21 @@ function showResults(products){
 		$('#exampleRow #label').text(product['label']);
 		$('#exampleRow #price').text(product['price']);
 		$('#exampleRow .delete').attr('id', product['ID']);
+		$('#exampleRow img').attr('src', product['image']);
+
+		added = new Date(product['added']);
+		updated = new Date(product['updated']);
+		if (product['added'] === null)
+			strAdded = '-';
+		else
+			strAdded = String(added.getDate()).padStart(2,'0') + '/' + String(added.getMonth()+1).padStart(2,'0') + '/' + added.getFullYear();
+		if (product['updated'] === null)
+			strUpdated = '-';
+		else
+			strUpdated = String(updated.getDate()).padStart(2,'0') + '/' + String(updated.getMonth()+1).padStart(2,'0') + '/' + updated.getFullYear();
+		$('#exampleRow #added').text(strAdded);
+		$('#exampleRow #updated').text(strUpdated);
+
 		if(product['available'] == 1){
 			$('#exampleRow #available i:last-child').addClass("hidden");
 			$('#exampleRow #available i:first-child').removeClass("hidden");
